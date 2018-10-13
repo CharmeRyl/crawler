@@ -43,7 +43,8 @@ class Crawler:
         if year > __year_cur__:
             return data
         q_max = self.__calc_cur_quarter__() if year == __year_cur__ else 4
-        for q in range(q_max, -1, -1):
+        for q in range(q_max, 0, -1):
+            print("Fetching data for stock {0} in year {1} quarter {2}".format(stock_id, year, q))
             self.__webdriver__.get(self.__generate_url__(stock_id, year, q))
             table = self.__webdriver__.find_elements_by_xpath(__xpath_table__)[1:]
             for row in table:
