@@ -25,5 +25,3 @@ class MongoDb:
             return self.__collection__.insert_one(data)
         query["data"] = utils.combine_dict_list(query["data"], data["data"])
         return self.__collection__.update_one({"_id": data['_id']}, {"$set": query})
-
-
