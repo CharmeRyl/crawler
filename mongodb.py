@@ -1,15 +1,12 @@
 import pymongo
 import utils
 
-__host_addr__ = "localhost"
-__host_port__ = 27017
-
 
 class MongoDb:
     __mongo_client__ = None
     __collection__ = None
 
-    def __init__(self, addr=__host_addr__, port=__host_port__):
+    def __init__(self, addr, port):
         self.__mongo_client__ = pymongo.MongoClient("mongodb://{0}:{1}/".format(addr, port))
         database = self.__mongo_client__["PyDataMining"]
         self.__collection__ = database["StockData"]

@@ -25,18 +25,14 @@ class Crawler:
     def __del__(self):
         self.__webdriver__.close()
 
-    def fetch_stock_data(self, stock_id, year_start, year_end=__year_cur__):
-        year_start = int(year_start)
-        year_end = int(year_end) if int(year_end) < __year_cur__ else __year_cur__
-        if year_end < year_start:
-            raise RuntimeError("illegal date period")
+    def fetch_stock_data(self, stock_id, years):
         data = dict(
             _id=int(stock_id),
             name=self.fetch_stock_name(stock_id),
             data=[]
         )
-
-        for year in range(year_end, year_start - 1, -1):
+        years.sort(reverse=True)
+        for year in years:
             data_year = self.fetch_stock_data_annually(stock_id, year)
             data["data"].extend(data_year)
 
@@ -44,6 +40,8 @@ class Crawler:
 
     def fetch_stock_data_annually(self, stock_id, year):
         data = []
+        if year > __year_cur__:
+            return data
         q_max = self.__calc_cur_quarter__() if year == __year_cur__ else 4
         for q in range(q_max, -1, -1):
             self.__webdriver__.get(self.__generate_url__(stock_id, year, q))

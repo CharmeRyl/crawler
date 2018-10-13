@@ -17,3 +17,15 @@ def combine_dict_list(list_a, list_b):
     if j < len(list_b):
         list_c.extend(list_b[j:])
     return list_c
+
+
+def parse_str_array(string):
+    arr_tmp = string.split(",")
+    arr = list()
+    for item in arr_tmp:
+        if item.isdigit():
+            arr.append(int(item))
+            continue
+        pair = item.split("-")
+        arr.extend(range(int(pair[0]), int(pair[1]) + 1))
+    return arr

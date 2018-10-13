@@ -1,0 +1,11 @@
+{
+  "database": {
+    "type": "mongodb",
+    "address": "localhost",
+    "port": 27017
+  },
+  "params": {
+    "period": "2015,2016-2017",
+    "stock_ids": "600519-600520,600521"
+  }
+}
