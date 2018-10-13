@@ -18,6 +18,8 @@ def create_driver():
 def fetch_stock_data(stock_id, year_start, year_end=__year_cur__):
     year_start = int(year_start)
     year_end = int(year_end) if int(year_end) < __year_cur__ else __year_cur__
+    if year_end < year_start:
+        raise RuntimeError("illegal date period")
     driver = create_driver()
     data = dict(
         _id=int(stock_id),
