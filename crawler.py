@@ -12,7 +12,13 @@ __month_cur__ = datetime.datetime.now().month
 
 
 def create_driver():
-    return webdriver.Chrome()
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver.set_page_load_timeout(10)
+    driver.maximize_window()
+    return driver
 
 
 def fetch_stock_data(stock_id, year_start, year_end=__year_cur__):
