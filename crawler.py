@@ -7,14 +7,17 @@ __url_pattern__ = "http://money.finance.sina.com.cn/corp/go.php/vMS_MarketHistor
 __xpath_name__ = "//div[@class='centerImgBlk']/div[@id='toolbar']/div[@class='tbtb01']/h1/a"
 __xpath_table__ = "//*[@id='FundHoldSharesTable']/tbody/tr"
 
+__year_cur__ = datetime.datetime.now().year
+__month_cur__ = datetime.datetime.now().month
+
 
 def create_driver():
     return webdriver.Chrome()
 
 
-def fetch_stock_data(stock_id, year_start, year_end=datetime.datetime.now().year):
+def fetch_stock_data(stock_id, year_start, year_end=__year_cur__):
     year_start = int(year_start)
-    year_end = int(year_end)
+    year_end = int(year_end) if int(year_end) < __year_cur__ else __year_cur__
     driver = create_driver()
     data = dict(
         _id=int(stock_id),
@@ -32,8 +35,9 @@ def fetch_stock_data(stock_id, year_start, year_end=datetime.datetime.now().year
 
 def fetch_stock_data_annually(driver, stock_id, year):
     data = []
-    for q in range(4, -1, -1):
-        driver.get(generate_url(stock_id, year, q))
+    q_max = __calc_cur_quarter__() if year == __year_cur__ else 4
+    for q in range(q_max, -1, -1):
+        driver.get(__generate_url__(stock_id, year, q))
         table = driver.find_elements_by_xpath(__xpath_table__)[1:]
         for row in table:
             row_data = row.text.split('\n')
@@ -56,6 +60,10 @@ def fetch_stock_name(driver, stock_id):
     return driver.find_element_by_xpath(__xpath_name__).text
 
 
-def generate_url(stock_id, year, quarter):
+def __calc_cur_quarter__():
+    return (__month_cur__ - 1) / 3 + 1
+
+
+def __generate_url__(stock_id, year, quarter):
     get_params = parse.urlencode({"year": year, "jidu": quarter})
     return __url_pattern__.format(stock_id, get_params)
