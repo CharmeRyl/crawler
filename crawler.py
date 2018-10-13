@@ -22,6 +22,9 @@ class Crawler:
         self.__webdriver__.set_page_load_timeout(10)
         self.__webdriver__.maximize_window()
 
+    def __del__(self):
+        self.__webdriver__.close()
+
     def fetch_stock_data(self, stock_id, year_start, year_end=__year_cur__):
         year_start = int(year_start)
         year_end = int(year_end) if int(year_end) < __year_cur__ else __year_cur__

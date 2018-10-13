@@ -6,12 +6,16 @@ __host_port__ = 27017
 
 
 class MongoDb:
+    __mongo_client__ = None
     __collection__ = None
 
     def __init__(self, addr=__host_addr__, port=__host_port__):
-        mongo_client = pymongo.MongoClient("mongodb://{0}:{1}/".format(addr, port))
-        database = mongo_client["PyDataMining"]
-        self.__collection__ =  database["StockData"]
+        self.__mongo_client__ = pymongo.MongoClient("mongodb://{0}:{1}/".format(addr, port))
+        database = self.__mongo_client__["PyDataMining"]
+        self.__collection__ = database["StockData"]
+
+    def __del__(self):
+        self.__mongo_client__.close()
 
     def put_one(self, data):
         query = self.__collection__.find_one({"_id": data['_id']})
