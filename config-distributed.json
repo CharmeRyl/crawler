@@ -1,0 +1,23 @@
+{
+  "master": {
+    "server": {
+      "address": "0.0.0.0",
+      "port": 8888
+    },
+    "params": {
+      "stock_ids": "600519-600520,600521",
+      "period": "2015,2016-2017"
+    }
+  },
+  "slave": {
+    "host": {
+      "address": "localhost",
+      "port": 8888
+    },
+    "database": {
+      "type": "mongodb",
+      "address": "localhost",
+      "port": 27017
+    }
+  }
+}

@@ -1,9 +1,9 @@
-from crawler import Crawler
-from mongodb import MongoDb
+from crawler import utils
+from crawler.mongodb import MongoDb
+from crawler.crawler import Crawler
 import json
-import utils
 
-__config_file__ = "config.json"
+__config_file__ = "config-standalone.json"
 
 
 def main():

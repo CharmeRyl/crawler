@@ -1,5 +1,5 @@
 import pymongo
-import utils
+from crawler import utils
 
 
 class MongoDb:
